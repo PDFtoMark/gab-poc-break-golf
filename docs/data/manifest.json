@@ -1,0 +1,23 @@
+{
+  "generated_by": "tools/manifest.py",
+  "note": "PoC manifest, same schema as the real one.",
+  "challenges": [
+    {
+      "slug": "fake",
+      "title": "Fake",
+      "blurb": "PoC challenge whose win condition is False.",
+      "tags": [],
+      "par_bits": 128,
+      "baseline_bits": 128.0,
+      "files": [],
+      "setup": [],
+      "solve_template": "",
+      "instance_name": "Fake",
+      "advantage_exponent": 2,
+      "solution_name": "Solution.Fake.solution",
+      "solution_type": "Challenge.Fake.Solution",
+      "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+      "timeout_seconds": 300
+    }
+  ]
+}

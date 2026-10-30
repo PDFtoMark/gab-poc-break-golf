@@ -1,0 +1,4 @@
+{
+  "note": "PoC ledger. Records are only ever written by tools/record.py.",
+  "records": {}
+}

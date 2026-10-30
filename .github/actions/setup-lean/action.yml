@@ -1,0 +1,39 @@
+name: Setup Lean
+description: >
+  Install the pinned toolchain and build the trusted challenge tree. Simplified
+  from trailofbits/break-golf's action (no Mathlib, no cache) but keeps the same
+  `project` output contract the submission workflow consumes.
+outputs:
+  project:
+    description: "Directory to run lake and tools/verify.py in"
+    value: ${{ steps.warm.outputs.project }}
+runs:
+  using: composite
+  steps:
+    - id: warm
+      shell: bash
+      run: |
+        if [ -n "${BREAK_GOLF_WARM:-}" ] && [ -d "$BREAK_GOLF_WARM/.lake" ]; then
+          rsync -a --delete --exclude '.lake' --exclude '.git' \
+            "$GITHUB_WORKSPACE/" "$BREAK_GOLF_WARM/"
+          echo "project=$BREAK_GOLF_WARM" >> "$GITHUB_OUTPUT"
+          echo "warm=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "project=$GITHUB_WORKSPACE" >> "$GITHUB_OUTPUT"
+          echo "warm=false" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Install elan
+      if: steps.warm.outputs.warm != 'true'
+      shell: bash
+      run: |
+        if [ ! -x "$HOME/.elan/bin/lake" ]; then
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+        fi
+        echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+    - name: Build the challenge tree
+      if: steps.warm.outputs.warm != 'true'
+      shell: bash
+      run: lake build Challenges
