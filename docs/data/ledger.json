@@ -1,4 +1,18 @@
 {
   "note": "PoC ledger. Records are only ever written by tools/record.py.",
-  "records": {}
+  "records": {
+    "fake": [
+      {
+        "solver": "Ety60",
+        "assisted_by": null,
+        "budget": 1,
+        "advNum": 1,
+        "advDen": 1,
+        "verified_at": null,
+        "issue": 1,
+        "description": null,
+        "bits": 0.0
+      }
+    ]
+  }
 }
